@@ -1,0 +1,18 @@
+{
+    "name" : "Test Full Name",
+    "email" : "Test@gmail.com",
+    "invalidEmail": "test@com",
+    "currentAddress" : "Test Current Address",
+    "permanentAddress" : "Test Permanent Address",
+    "firstName": "Sam",
+    "lastName": "Smith",
+    "mobileNumber": "1234567890",
+    "subject": ["Maths","English"],
+    "user" : {
+        "id": 123,
+        "name": "Test",
+        "email": "test@ok.com",
+        "role": ["Admin", "User"]
+      }
+}
+
