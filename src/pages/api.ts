@@ -1,17 +1,28 @@
-import testData from "../testData/testData.json"
-import { test, expect } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 export class ApiTest{
-    // validateUser(){
-    //     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
-    //     expect(testData.user, 'User object').to.have.property('id');
-    //     expect(testData.user.id, 'Id should be a number').to.be.a('number');
-    //     expect(testData.user, 'User object').to.have.property('name');
-    //     expect(testData.user.name, 'Name should be a string').to.be.a('string');
-    //     expect(testData.user.name.trim(), 'Name should not be empty').to.not.equal('');
-    //     expect(testData.user, 'User object').to.have.property('email');
-    //     expect(testData.user.email, 'Email should have valid format').to.match(emailRegex);
-    //     expect(testData.user, 'User object').to.have.property('role');
-    //     expect(testData.user.role, 'Role should be an array').to.be.an('array');
-    //     expect(testData.user.role.length, 'Atleat 1 Role exists').to.be.greaterThan(0);
-    // }
+    readonly page: Page;
+    constructor(page: Page){
+        this.page = page;
+    }
+    async validateUser(user: any){
+        expect(user, 'User object').toHaveProperty('id');
+        expect(user, 'User object').toHaveProperty('name');
+        expect(user, 'User object').toHaveProperty('email');
+        expect(user, 'User object').toHaveProperty('role');
+    }
+    async validateUserId(id: number){
+        expect(typeof id, 'Id should be a number').toBe('number');
+    }
+    async validateUserName(name: string){
+        expect(typeof name, 'Name should be a string').toBe('string');
+        expect(name.trim(), 'Name should not be empty').not.toBe('');
+    }
+    async validateUserEmail(email: string){
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+        expect(email, 'Email should have valid format').toMatch(emailRegex);
+    }
+    async validateUserRole(role: any){
+        expect(Array.isArray(role), 'Role should be an array').toBeTruthy();
+        expect(role.length, 'Atleat 1 Role exists').toBeGreaterThan(0);
+    }
 }

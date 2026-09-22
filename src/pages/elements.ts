@@ -1,185 +1,177 @@
-import { Page, Locator, expect } from "@playwright/test"
+import { Page, expect } from "@playwright/test"
 import element from "../selectors/selectors.json"
 import testdata from "../testData/testData.json"
+import fs from 'fs';
+import path from 'path';
 export class Elements{ 
     readonly page: Page;
     constructor(page: Page){
         this.page = page;
     }
     async validateText(){
-        await this.page.goto('https://demoqa.com/forms');
-        await this.page.locator('span', {hasText: 'Text Box'}).click()
         await this.page.locator('span', {hasText: 'Elements'}).click()
+        await this.page.locator('span', {hasText: 'Text Box'}).click()
         await this.page.locator(element.inputName).fill(testdata.name)
         await this.page.locator(element.inputEmail).fill(testdata.invalidEmail)
         await this.page.locator(element.inputCurrentAddress).fill(testdata.currentAddress)
         await this.page.locator(element.inputPermanentAddress).fill(testdata.permanentAddress)
-        await this.page.locator('span', {hasText: 'Submit'}).click()
+        await this.page.locator('button', {hasText: 'Submit'}).click()
         await expect(this.page.locator(element.emailError)).toBeVisible()
-        //await this.page.locator(element.emailError).isVisible()
-        //cy.get('span').contains('Elements').click()
-        //cy.get('span').contains('Text Box').click(),
-        // cy.get(element.inputName).type(testdata.name),
-        // cy.get(element.inputEmail).type(testdata.invalidEmail),
-        // cy.get(element.inputCurrentAddress).type(testdata.currentAddress),
-        // cy.get(element.inputPermanentAddress).type(testdata.permanentAddress),
-        // cy.get('button').contains('Submit').click(),
-        // cy.get(element.emailError).should('be.visible'),
-        // cy.get(element.inputEmail).clear().type(testdata.email),
-        // cy.get('button').contains('Submit').click(),
-        // cy.get('p').contains(testdata.name).should('be.visible'),
-        // cy.get('p').contains(testdata.email).should('be.visible'),
-        // cy.get('p').contains(testdata.currentAddress).should('be.visible'),
-        // cy.get('p').contains(testdata.permanentAddress).should('be.visible')
+        await this.page.locator(element.inputName).fill(testdata.name)
+        await this.page.locator(element.inputEmail).fill(testdata.email)
+        await this.page.locator(element.inputCurrentAddress).fill(testdata.currentAddress)
+        await this.page.locator(element.inputPermanentAddress).fill(testdata.permanentAddress)
+        await this.page.locator('button', {hasText: 'Submit'}).click()
+        await expect(this.page.getByText(testdata.name)).toBeVisible()
+        await expect(this.page.getByText(testdata.email)).toBeVisible()
+        await expect(this.page.locator('p', {hasText: testdata.currentAddress})).toBeVisible()
+        await expect(this.page.locator('p', {hasText: testdata.permanentAddress})).toBeVisible()
     }
-    // validateCheckBox(){
-    //     cy.get('span').contains('Check Box').click(),
-    //     cy.get( element.checkboxExpand).click(),
-    //     cy.get( element.homeCheckbox).click(),
-    //     cy.get( element.homeCheckbox).should('have.attr','aria-checked','true'),
-    //     cy.get('span').contains('You have selected :').should('be.visible'),
-    //     cy.get('span').contains('home').should('be.visible'),
-    //     cy.get( element.downloadsCheckbox).click(),
-    //     cy.get( element.downloadsCheckbox).should('have.attr','aria-checked','false'),
-    //     cy.get('span').contains('downloads').should('not.exist')
-    // }
-    // validateRadioButton(){
-    //     cy.get('span').contains('Radio Button').click(),
-    //     cy.get('div.mb-3').contains('Do you like the site?').should('be.visible'),
-    //     cy.get( element.yesRadioBtn).click(),
-    //     cy.get('p').contains('You have selected').should('be.visible'),
-    //     cy.get('span').contains('Yes').should('be.visible'),
-    //     cy.get( element.impressiveRadioBtn).click(),
-    //     cy.get('p').contains('You have selected ').should('be.visible'),
-    //     cy.get('span').contains('Impressive').should('be.visible'),
-    //     cy.get( element.noRadioBtn).siblings().should('have.attr','disabled')
-    // }
-    // validateWebTables(){
-    //     cy.get('span').contains('Web Tables').click(),
-    //     cy.get('button').contains('Add').click(),
-    //     cy.get( element.inputFirstName).type('Sam'),
-    //     cy.get( element.inputLastName).type('Smith'),
-    //     cy.get( element.inputEmail).type('test@gmail.com'),
-    //     cy.get( element.inputAge).type('25'),
-    //     cy.get( element.inputSalary).type('10000'),
-    //     cy.get( element.inputDepartment).type('Sales'),
-    //     cy.get('button').contains('Submit').click(),
-    //     cy.get('table>tbody>tr').should('have.length',4),
-    //     cy.get( element.searchBar).type('Sales'),
-    //     cy.get('table>tbody>tr').should('have.length',1),
-    //     cy.get( element.editBtn).click(),
-    //     cy.get( element.inputDepartment).clear().type('Finance'),
-    //     cy.get('button').contains('Submit').click(),
-    //     cy.get('table>tbody>tr').should('have.length',0)
-    // }
-    // validateButtons(){
-    //     cy.get('span').contains('Buttons').click(),
-    //     cy.get('button').contains('Double Click Me').dblclick(),
-    //     cy.get('p').contains('You have done a double click').should('be.visible'),
-    //     cy.get('button').contains('Right Click Me').rightclick(),
-    //     cy.get('p').contains('You have done a right click').should('be.visible')
-    //     cy.get('button.btn.btn-primary').last().click(),
-    //     cy.get('p').contains('You have done a dynamic click').should('be.visible')
-    // }
-    // validateLinks(){
-    //     cy.intercept('GET', 'https://demoqa.com/created').as('Created')
-    //     cy.intercept('GET', 'https://demoqa.com/no-content').as('NoContent')
-    //     cy.intercept('GET', 'https://demoqa.com/moved').as('Moved')
-    //     cy.get('span').contains('Links').click()
-    //     cy.get('a').contains('Home').should('have.attr','target', '_blank')
-    //     .and('have.attr', 'href', 'https://demoqa.com')
-    //     cy.get('a').contains('Created').click()
-    //     cy.wait("@Created").its('response.statusCode').should('equal',201)
-    //     cy.get('a').contains('No Content').click()
-    //     cy.wait("@NoContent").its('response.statusCode').should('equal',204)
-    //     cy.get('a').contains('Moved').click()
-    //     cy.wait("@Moved").its('response.statusCode').should('equal',301)
-    // }
-    // validateBrokenImageAndLink(){
-    //     cy.get('span').contains('Broken Links - Images').click()
-    //     cy.get("img[src='/images/Toolsqa.jpg']")
-    //     .and('have.prop','naturalHeight', 0)
-    //     .and('have.prop','naturalWidth',0)
-    //     cy.get("img[src='/images/Toolsqa_1.jpg']")
-    //     .and('have.prop','naturalHeight', 0)
-    //     .and('have.prop','naturalWidth',0)
-    //     cy.intercept('GET','https://demoqa.com/').as('ValidLink')
-    //     cy.get('a').contains('Click Here for Valid Link')
-    //     .should('have.attr','href','http://demoqa.com').click()
-    //     cy.wait("@ValidLink").its('response.statusCode').should("equal",200)
-    //     cy.go('back')
-    //     cy.intercept('GET','http://the-internet.herokuapp.com/status_codes/500').as('InvalidLink')
-    //     cy.get('a').contains('Click Here for Broken Link')
-    //     .should('have.attr','href','http://the-internet.herokuapp.com/status_codes/500').click()
-    //     cy.wait("@InvalidLink").its('response.statusCode').should("equal",500)
-    //     cy.get('p').contains('This page returned a 500 status code.')
-    //     cy.go('back')
-    // }
-    // validateUploadAndDownload(){
-    //     cy.get('span').contains('Upload and Download').click()
-    //     cy.get('a').contains('Download').click({force:true})
-    //     cy.readFile('cypress/downloads/sampleFile.jpeg').should('exist')
-    //     cy.get('#uploadFile').selectFile('/Users/gaurimishra/Desktop/qa/assessment/cypress/fixtures/download.jpeg',{force:true})
-    //     cy.get('#uploadedFilePath').contains(`C:\\fakepath\\download.jpeg`).should("be.visible")
-    // }
-    // validateDynamicProperties(){
-    //     cy.get('span').contains('Dynamic Properties').click()
-    //     cy.get('button#enableAfter').should('have.attr','disabled')
-    //     cy.get('button#visibleAfter').should("not.exist")
-    //     //Wait time for dynamic properties to be enabled
-    //     cy.wait(5000)
-    //     cy.get('button#enableAfter').should('not.have.attr','disabled')
-    //     cy.get('button#colorChange').should('have.css','color','rgb(220, 53, 69)')
-    //     cy.get('button#visibleAfter').should('be.visible')
-    // }
-    // validate(){
-    //     cy.get('span').contains('Alerts, Frame & Windows').click()
-    //     //cy.get('span').contains('Browser Windows').click()
-    //     // cy.window().then((win)=>{
-    //     //     cy.stub(win,"open").as('WindowOpen')
-    //     // })
-    //     // cy.get('button').contains('New Tab').click()
-    //     // cy.get('@WindowOpen').then((stub)=>{
-    //     //     const url=stub.getCall(0).args[0]
-    //     //     cy.visit(url)
-    //     // })
-    //     cy.get('a span').contains('Alerts').click()
-    //     cy.get('button#alertButton').contains('Click me').click()
-    //     cy.on('window:alert',(msg)=>{
-    //         expect(msg).to.eq('You clicked a button')
-    //     })
-    //     cy.contains('button#confirmButton','Click me').click()
-    //     cy.on('window:confirm',(msg)=>{
-    //         expect(msg).to.eq('Do you confirm action?')
-    //     })
-    //     cy.contains('span','Ok').should('be.visible')
-    //     cy.window().then((win)=>{
-    //         cy.stub(win,'prompt').returns('Test')
-    //     })
-    //     cy.contains('#promtButton','Click me').click()
-    //     cy.contains('span','Test').should('be.visible')
-    //     cy.get('a span').contains('Frames').click()
-    //     cy.get('#frame1').should('be.visible')
-    //     cy.get('#frame1').its('0.contentDocument.body').should('not.be.empty')
-    //     .then(cy.wrap).find('h1').should('have.text','This is a sample page')
-    //     cy.get('#frame2').should('be.visible')
-    //     cy.get('a span').contains('Nested Frames').click()
-    //     cy.get('#frame1').its('0.contentDocument.body').should('not.be.empty')
-    //     .then(cy.wrap).find('iframe').its('0.contentDocument.body').should('not.be.empty')
-    //     .then(cy.wrap).find('p').should('have.text','Child Iframe')
-    //     cy.contains('span','Modal Dialogs').click()
-    //     cy.contains('button','Small modal').click()
-    //     cy.contains('button#closeSmallModal','Close').click()
-    //     cy.contains('button','Large modal').click()
-    //     cy.contains('button#closeLargeModal','Close').click()
-    //     cy.contains('span','Widgets').click()
-    //     cy.contains('span','Slider').click()
-    //     // cy.get('#sliderValue').invoke('value','75').trigger('change')
-    //     // cy.get('.range-slider.range-slider--primary').should('have.value',75)
-    //     cy.contains('span','Progress Bar').click()
-    //     cy.get('.progress-bar.bg-info').should('have.attr', 'aria-valuenow', '0');
-    //     cy.get('#startStopButton').click();
-    //     cy.wait(1000); // Wait briefly for progress to move
-    //     cy.get('#startStopButton').click();
-    // }
+    async validateCheckBox(){
+        await this.page.getByText('Check Box').click()
+        await this.page.locator(element.checkboxExpand).click()
+        await this.page.locator(element.homeCheckbox).click()
+        await expect(this.page.locator(element.homeCheckbox)).toHaveAttribute('aria-checked', 'true')
+        await expect(this.page.getByText('You have selected :')).toBeVisible()
+        await expect(this.page.locator('.text-success',{hasText:'home'})).toBeVisible()
+        await this.page.locator(element.downloadsCheckbox).click()
+        await expect(this.page.locator(element.downloadsCheckbox)).toHaveAttribute('aria-checked', 'false')
+        await expect(this.page.locator('.text-success',{hasText:'downloads'})).not.toBeVisible()
+    }
+    async validateRadioButton(){
+        await this.page.getByText('Radio Button').click()
+        await expect(this.page.getByText('Do you like the site?')).toBeVisible()
+        await this.page.locator(element.yesRadioBtn).click()
+        await expect(this.page.getByText('You have selected')).toBeVisible()
+        await expect(this.page.locator('.text-success',{hasText:'Yes'})).toBeVisible()
+        await this.page.locator(element.impressiveRadioBtn).click()
+        await expect(this.page.getByText('You have selected')).toBeVisible()
+        await expect(this.page.locator('.text-success',{hasText:'Impressive'})).toBeVisible()
+        await expect(this.page.locator(element.noRadioBtn)).toBeDisabled()
+    }
+    async validateWebTables(){
+        await this.page.getByText('Web Tables').click()
+        await this.page.getByRole('button', { name: 'Add' }).click()
+        await this.page.locator(element.inputFirstName).fill('Sam')
+        await this.page.locator(element.inputLastName).fill('Smith')
+        await this.page.locator(element.inputEmail).fill('test@gmail.com')
+        await this.page.locator(element.inputAge).fill('25')
+        await this.page.locator(element.inputSalary).fill('10000')
+        await this.page.locator(element.inputDepartment).fill('Sales')
+        await this.page.getByRole('button', { name: 'Submit' }).click()
+        await expect(this.page.locator('table>tbody>tr')).toHaveCount(4)
+        await this.page.locator(element.searchBar).fill('Sales')
+        await expect(this.page.locator('table>tbody>tr')).toHaveCount(1)
+        await this.page.locator(element.editBtn).click()
+        await this.page.locator(element.inputDepartment).fill('Finance')
+        await this.page.getByRole('button', { name: 'Submit' }).click()
+        await expect(this.page.locator('table>tbody>tr')).toHaveCount(0)
+    }
+    async validateButtons(){
+        await this.page.getByText('Buttons').click()
+        await this.page.getByText('Double Click Me').dblclick()
+        await expect(this.page.getByText('You have done a double click' )).toBeVisible()
+        await this.page.getByText('Right Click Me').click({ button: 'right' })
+        await expect(this.page.getByText('You have done a right click')).toBeVisible()
+        await this.page.locator('button.btn.btn-primary').last().click()
+        await expect(this.page.getByText('You have done a dynamic click')).toBeVisible()
+    }
+    async validateLinks(){
+        const responsePromise = this.page.waitForResponse((response) =>
+            response.url() === 'https://demoqa.com/created' && response.status() === 201
+        );
+        const responsePromise1 = this.page.waitForResponse((response) =>
+            response.url() === 'https://demoqa.com/no-content' && response.status() === 204
+        );
+        const responsePromise2 = this.page.waitForResponse((response) =>
+            response.url() === 'https://demoqa.com/moved' && response.status() === 301
+        );
+        await this.page.getByText('Links').first().click()
+        const pagePromise = this.page.context().waitForEvent('page');
+        await this.page.getByText(/Home$/).click()
+        const newPage = await pagePromise;
+        await newPage.waitForLoadState();
+        await expect(newPage).toHaveURL('https://demoqa.com/')
+        await newPage.close();
+        await this.page.bringToFront();
+        await this.page.getByText('Created').click()
+        const response = await responsePromise
+        expect(response.status()).toBe(201)
+        await this.page.getByText('No Content').click()
+        const response1 = await responsePromise1
+        expect(response1.status()).toBe(204)
+        await this.page.getByText('Moved').click()
+        const response2 = await responsePromise2
+        expect(response2.status()).toBe(301)
+    }
+    async validateBrokenImageAndLink(){
+        await this.page.getByText('Broken Links - Images').click()
+        const brokenImage1 = this.page.locator("img[src='/images/Toolsqa.jpg']")
+        await expect(brokenImage1).toHaveJSProperty('naturalHeight', 0)
+        await expect(brokenImage1).toHaveJSProperty('naturalWidth', 0)
+        const brokenImage2 = this.page.locator("img[src='/images/Toolsqa_1.jpg']")
+        await expect(brokenImage2).toHaveJSProperty('naturalHeight', 0)
+        await expect(brokenImage2).toHaveJSProperty('naturalWidth', 0)
+        const responsePromise = this.page.waitForResponse((response) =>
+            response.url() === 'https://demoqa.com/' && response.status() === 200
+        );
+        await this.page.getByText('Click Here for Valid Link').click()
+        const response = await responsePromise
+        expect(response.status()).toBe(200)
+        await this.page.goBack()
+        const responsePromiseBrokenLink = this.page.waitForResponse((response) =>
+            response.url() === 'http://the-internet.herokuapp.com/status_codes/500' && response.status() === 500
+        );
+        await this.page.getByText('Click Here for Broken Link').click()
+        const responseBrokenLink = await responsePromiseBrokenLink
+        expect(responseBrokenLink.status()).toBe(500)
+        await this.page.getByText('This page returned a 500 status code.').isVisible()
+        await this.page.goBack()
+    }
+    async validateUploadAndDownload(){
+        await this.page.getByText('Upload and Download').click()
+        const downloadPromise = this.page.waitForEvent('download');
+        this.page.locator('#downloadButton', { hasText: 'Download' }).click({force:true})
+        const download = await downloadPromise;
+        const fileName = download.suggestedFilename();
+        expect(fileName).toBe('sampleFile.jpeg');
+        const downloadPath = path.join(__dirname, 'downloads', fileName);
+        await download.saveAs(downloadPath);
+        expect(fs.existsSync(downloadPath)).toBeTruthy();
+        await this.page.setInputFiles('input[type="file"]','/Users/gaurimishra/Desktop/qa/assessment/cypress/fixtures/download.jpeg')
+        await this.page.getByText('C:\\fakepath\\download.jpeg').isVisible()
+    }
+    async validateDynamicProperties(){
+        await this.page.getByText('Dynamic Properties').click()
+        await this.page.getByText('Will enable 5 seconds').isDisabled()
+        await this.page.getByText('Visible After 5 Seconds').isHidden()
+        await this.page.getByText('Color Change').evaluate((el) => {
+            return window.getComputedStyle(el).color === 'rgb(250, 250, 250)'
+        })
+        await this.page.waitForTimeout(5000) // Wait for dynamic properties to be enabled
+        await this.page.getByText('Will enable 5 seconds').isEnabled()
+        await this.page.getByText('Color Change').evaluate((el) => {
+            return window.getComputedStyle(el).color === 'rgb(220, 53, 69)'
+        })
+        await this.page.getByText('Visible After 5 Seconds').isVisible()
+    }
+    async validateAlerts(){
+        await this.page.getByText('Alerts, Frame & Windows').click()
+            await this.page.getByText('Alerts').last().click()
+            this.page.once('dialog', async (dialog) => {
+                expect(dialog.message()).toBe('You clicked a button')
+                await dialog.accept()
+            })
+            await this.page.locator('button#alertButton', { hasText: 'Click me' }).click() // Trigger the alert
+            this.page.once('dialog', async (dialog) => {
+                expect(dialog.message()).toBe('Do you confirm action?')
+                await dialog.accept()
+            })
+            await this.page.locator('button#confirmButton', { hasText: 'Click me' }).click() // Trigger the confirm dialog
+            this.page.once('dialog', async (dialog) => {
+                expect(dialog.message()).toBe('Please enter your name')
+                await dialog.accept('Input Text')
+            })
+            await this.page.locator('button#promtButton', { hasText: 'Click me' }).click() // Trigger the prompt dialog
+    }        
 }

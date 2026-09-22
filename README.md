@@ -11,7 +11,6 @@ npm install playwright@latest --save-dev
 # How to Install Typescript
 ```npm
 npm install typescript
-npx tsc --init --types cypress --lib dom,es6
 ```
 ## How to Run
  
@@ -32,3 +31,4 @@ TEST CASE 8 - DOWNLOAD AND UPLOAD FILE
 TEST CASE 9 - DYNAMIC PROPERTIES - 3 BUTTONS
 TEST CASE 10 - FORMS - FORM SUBMISSION 
 TEST CASE 11 - VALIDATE API RESPONSE
+TEST CASE 12 - VALIDATE ALERTS

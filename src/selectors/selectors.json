@@ -9,7 +9,7 @@
     "downloadsCheckbox" : ".rc-tree-checkbox[aria-label='Select Downloads']",
     "yesRadioBtn" : "label[for='yesRadio']",
     "impressiveRadioBtn" : "label[for='impressiveRadio']",
-    "noRadioBtn" : "label[for='noRadio']",
+    "noRadioBtn" : "#noRadio",
     "inputFirstName" : "input[placeholder='First Name']",
     "inputLastName" : "input[placeholder='Last Name']",
     "inputAge" : "input[placeholder='Age']",

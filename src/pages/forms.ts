@@ -1,33 +1,38 @@
+import { Page } from "@playwright/test";
 import selector from "../selectors/selectors.json"
 import testdata from "../testData/testData.json"
 export class Forms{
-    // validateForms(){
-    //     cy.get('span').contains('Forms').click()
-    //     cy.get('span').contains('Practice Form').click()
-    //     cy.get(selector.inputFirstName).type(testdata.firstName)
-    //     cy.get(selector.inputLastName).type(testdata.lastName)
-    //     cy.get(selector.inputEmail).type(testdata.email)
-    //     cy.get(selector.genderRadioBtn).click()
-    //     cy.get(selector.inputMobileNo).type(testdata.mobileNumber)
-    //     cy.get(selector.inputDate).click()
-    //     cy.get(selector.selectYear).select('1980')
-    //     cy.get(selector.selectMonth).select('May')
-    //     cy.get(selector.selectDay).click()
-    //     cy.get(selector.inputSubject).type(testdata.subject[0] +"{Enter}"+ testdata.subject[1] +"{Enter}")
-    //     cy.get(selector.hobbiesCheckbox).click()
-    //     cy.get('#uploadPicture').selectFile('/Users/gaurimishra/Desktop/qa/assessment/cypress/fixtures/download.jpeg',{force:true})
-    //     cy.get(selector.inputCurrentAddress).type(testdata.currentAddress)
-    //     cy.get(selector.selectState).type("N {Enter}")
-    //     cy.get(selector.selectCity).type("D {Enter}")
-    //     cy.get('button').contains('Submit').click()
-    //     cy.get('.modal-content div').contains('Thanks for submitting the form').should("be.visible")
-    //     cy.get('tr>td').contains(testdata.firstName+' '+testdata.lastName)
-    //     cy.get('tr>td').contains(testdata.email)
-    //     cy.get('tr>td').contains(testdata.mobileNumber)
-    //     cy.get('tr>td').contains(testdata.subject[0]+", "+testdata.subject[1])
-    //     cy.get('tr>td').contains(testdata.currentAddress)
-    //     cy.get('tr>td').contains('download.jpeg')
-
-    // }
-
+    readonly page:Page;
+    constructor(page:Page){
+        this.page=page;    
+    }
+    async validateForms(){
+        await this.page.getByText('Forms').click()
+        await this.page.getByText('Practice Form').click()
+        await this.page.locator(selector.inputFirstName).fill(testdata.firstName)
+        await this.page.locator(selector.inputLastName).fill(testdata.lastName)
+        await this.page.locator(selector.inputEmail).fill(testdata.email)
+        await this.page.locator(selector.genderRadioBtn).click()
+        await this.page.locator(selector.inputMobileNo).fill(testdata.mobileNumber)
+        await this.page.locator(selector.inputDate).click()
+        await this.page.locator(selector.selectYear).selectOption('1980')
+        await this.page.locator(selector.selectMonth).selectOption('May')
+        await this.page.locator(selector.selectDay).click()
+        await this.page.locator(selector.inputSubject).fill(testdata.subject[0] +"{Enter}"+ testdata.subject[1] +"{Enter}")
+        await this.page.locator(selector.hobbiesCheckbox).click()
+        await this.page.setInputFiles('input[type="file"]', '/Users/gaurimishra/Desktop/playwright/playwright/src/testData/download.jpeg')
+        await this.page.locator(selector.inputCurrentAddress).fill(testdata.currentAddress)
+        await this.page.locator(selector.selectState).fill("N")
+        await this.page.keyboard.press('Enter')
+        await this.page.locator(selector.selectCity).fill("D")
+        await this.page.keyboard.press('Enter')
+        await this.page.getByText('Submit').click()
+        await this.page.getByText('Thanks for submitting the form').isVisible()
+        await this.page.getByText(testdata.firstName+' '+testdata.lastName).isVisible()
+        await this.page.getByText(testdata.email).isVisible()
+        await this.page.getByText(testdata.mobileNumber).isVisible()
+        await this.page.getByText(testdata.subject[0]+", "+testdata.subject[1]).isVisible()
+        await this.page.getByText(testdata.currentAddress).isVisible()
+        await this.page.getByText('download.jpeg').isVisible()
+    }
 }
