@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { ApiTest } from "../src/pages/api";
+import { ApiTest } from "../src/api/api";
 import testData from "../src/testData/testData.json"
 
 test.describe('API Validation', () => {
