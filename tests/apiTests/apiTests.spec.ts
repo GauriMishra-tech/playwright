@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import { ApiTest } from "../src/api/api";
-import testData from "../src/testData/testData.json"
+import { ApiTest } from "../../src/api/api";
+import testData from "../../src/testData/testData.json"
 
 test.describe('API Validation', () => {
     test('should validate user data', async ({page}) => {

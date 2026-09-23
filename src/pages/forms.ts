@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import selector from "../selectors/selectors.json"
+import {selector} from "../selectors/selectors"
 import testdata from "../testData/testData.json"
 export class Forms{
     readonly page:Page;

@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test"
-import element from "../selectors/selectors.json"
+import {selector} from "../selectors/selectors"
 import testdata from "../testData/testData.json"
 import fs from 'fs';
 import path from 'path';
@@ -11,16 +11,16 @@ export class Elements{
     async validateText(){
         await this.page.locator('span', {hasText: 'Elements'}).click()
         await this.page.locator('span', {hasText: 'Text Box'}).click()
-        await this.page.locator(element.inputName).fill(testdata.name)
-        await this.page.locator(element.inputEmail).fill(testdata.invalidEmail)
-        await this.page.locator(element.inputCurrentAddress).fill(testdata.currentAddress)
-        await this.page.locator(element.inputPermanentAddress).fill(testdata.permanentAddress)
+        await this.page.locator(selector.inputName).fill(testdata.name)
+        await this.page.locator(selector.inputEmail).fill(testdata.invalidEmail)
+        await this.page.locator(selector.inputCurrentAddress).fill(testdata.currentAddress)
+        await this.page.locator(selector.inputPermanentAddress).fill(testdata.permanentAddress)
         await this.page.locator('button', {hasText: 'Submit'}).click()
-        await expect(this.page.locator(element.emailError)).toBeVisible()
-        await this.page.locator(element.inputName).fill(testdata.name)
-        await this.page.locator(element.inputEmail).fill(testdata.email)
-        await this.page.locator(element.inputCurrentAddress).fill(testdata.currentAddress)
-        await this.page.locator(element.inputPermanentAddress).fill(testdata.permanentAddress)
+        await expect(this.page.locator(selector.emailError)).toBeVisible()
+        await this.page.locator(selector.inputName).fill(testdata.name)
+        await this.page.locator(selector.inputEmail).fill(testdata.email)
+        await this.page.locator(selector.inputCurrentAddress).fill(testdata.currentAddress)
+        await this.page.locator(selector.inputPermanentAddress).fill(testdata.permanentAddress)
         await this.page.locator('button', {hasText: 'Submit'}).click()
         await expect(this.page.getByText(testdata.name)).toBeVisible()
         await expect(this.page.getByText(testdata.email)).toBeVisible()
@@ -29,41 +29,41 @@ export class Elements{
     }
     async validateCheckBox(){
         await this.page.getByText('Check Box').click()
-        await this.page.locator(element.checkboxExpand).click()
-        await this.page.locator(element.homeCheckbox).click()
-        await expect(this.page.locator(element.homeCheckbox)).toHaveAttribute('aria-checked', 'true')
+        await this.page.locator(selector.checkboxExpand).click()
+        await this.page.locator(selector.homeCheckbox).click()
+        await expect(this.page.locator(selector.homeCheckbox)).toHaveAttribute('aria-checked', 'true')
         await expect(this.page.getByText('You have selected :')).toBeVisible()
         await expect(this.page.locator('.text-success',{hasText:'home'})).toBeVisible()
-        await this.page.locator(element.downloadsCheckbox).click()
-        await expect(this.page.locator(element.downloadsCheckbox)).toHaveAttribute('aria-checked', 'false')
+        await this.page.locator(selector.downloadsCheckbox).click()
+        await expect(this.page.locator(selector.downloadsCheckbox)).toHaveAttribute('aria-checked', 'false')
         await expect(this.page.locator('.text-success',{hasText:'downloads'})).not.toBeVisible()
     }
     async validateRadioButton(){
         await this.page.getByText('Radio Button').click()
         await expect(this.page.getByText('Do you like the site?')).toBeVisible()
-        await this.page.locator(element.yesRadioBtn).click()
+        await this.page.locator(selector.yesRadioBtn).click()
         await expect(this.page.getByText('You have selected')).toBeVisible()
         await expect(this.page.locator('.text-success',{hasText:'Yes'})).toBeVisible()
-        await this.page.locator(element.impressiveRadioBtn).click()
+        await this.page.locator(selector.impressiveRadioBtn).click()
         await expect(this.page.getByText('You have selected')).toBeVisible()
         await expect(this.page.locator('.text-success',{hasText:'Impressive'})).toBeVisible()
-        await expect(this.page.locator(element.noRadioBtn)).toBeDisabled()
+        await expect(this.page.locator(selector.noRadioBtn)).toBeDisabled()
     }
     async validateWebTables(){
         await this.page.getByText('Web Tables').click()
         await this.page.getByRole('button', { name: 'Add' }).click()
-        await this.page.locator(element.inputFirstName).fill('Sam')
-        await this.page.locator(element.inputLastName).fill('Smith')
-        await this.page.locator(element.inputEmail).fill('test@gmail.com')
-        await this.page.locator(element.inputAge).fill('25')
-        await this.page.locator(element.inputSalary).fill('10000')
-        await this.page.locator(element.inputDepartment).fill('Sales')
+        await this.page.locator(selector.inputFirstName).fill('Sam')
+        await this.page.locator(selector.inputLastName).fill('Smith')
+        await this.page.locator(selector.inputEmail).fill('test@gmail.com')
+        await this.page.locator(selector.inputAge).fill('25')
+        await this.page.locator(selector.inputSalary).fill('10000')
+        await this.page.locator(selector.inputDepartment).fill('Sales')
         await this.page.getByRole('button', { name: 'Submit' }).click()
         await expect(this.page.locator('table>tbody>tr')).toHaveCount(4)
-        await this.page.locator(element.searchBar).fill('Sales')
+        await this.page.locator(selector.searchBar).fill('Sales')
         await expect(this.page.locator('table>tbody>tr')).toHaveCount(1)
-        await this.page.locator(element.editBtn).click()
-        await this.page.locator(element.inputDepartment).fill('Finance')
+        await this.page.locator(selector.editBtn).click()
+        await this.page.locator(selector.inputDepartment).fill('Finance')
         await this.page.getByRole('button', { name: 'Submit' }).click()
         await expect(this.page.locator('table>tbody>tr')).toHaveCount(0)
     }
@@ -138,7 +138,7 @@ export class Elements{
         const downloadPath = path.join(__dirname, 'downloads', fileName);
         await download.saveAs(downloadPath);
         expect(fs.existsSync(downloadPath)).toBeTruthy();
-        await this.page.setInputFiles('input[type="file"]','/Users/gaurimishra/Desktop/qa/assessment/cypress/fixtures/download.jpeg')
+        await this.page.setInputFiles('input[type="file"]','/Users/gaurimishra/Desktop/playwright/playwright/src/testData/download.jpeg')
         await this.page.getByText('C:\\fakepath\\download.jpeg').isVisible()
     }
     async validateDynamicProperties(){

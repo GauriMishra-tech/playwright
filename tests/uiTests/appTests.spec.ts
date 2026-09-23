@@ -1,5 +1,5 @@
-import { Elements } from "../src/pages/elements"
-import { Forms } from "../src/pages/forms"
+import { Elements } from "../../src/pages/elements"
+import { Forms } from "../../src/pages/forms"
 import { test } from "@playwright/test"
 
 test.describe('Validate tests', () => {
