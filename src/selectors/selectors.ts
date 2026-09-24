@@ -26,5 +26,9 @@ export const selector ={
     inputSubject: ".subjects-auto-complete__input",
     hobbiesCheckbox: "label[for='hobbies-checkbox-1']",
     selectState: "#react-select-3-input",
-    selectCity: "#react-select-4-input"
+    selectCity: "#react-select-4-input",
+    alertButton : "button#alertButton",
+    confirmButton : "button#confirmButton",
+    promptButton : "button#promtButton",
+    downloadButton : "a#downloadButton"
 };

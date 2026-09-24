@@ -9,8 +9,8 @@ export class Elements{
         this.page = page;
     }
     async validateText(){
-        await this.page.locator('span', {hasText: 'Elements'}).click()
-        await this.page.locator('span', {hasText: 'Text Box'}).click()
+        await this.page.getByText('Elements').click()
+        await this.page.getByText('Text Box').click()
         await this.page.locator(selector.inputName).fill(testdata.name)
         await this.page.locator(selector.inputEmail).fill(testdata.invalidEmail)
         await this.page.locator(selector.inputCurrentAddress).fill(testdata.currentAddress)
@@ -131,14 +131,15 @@ export class Elements{
     async validateUploadAndDownload(){
         await this.page.getByText('Upload and Download').click()
         const downloadPromise = this.page.waitForEvent('download');
-        this.page.locator('#downloadButton', { hasText: 'Download' }).click({force:true})
+        this.page.locator(selector.downloadButton, { hasText: 'Download' }).click({force:true})
         const download = await downloadPromise;
         const fileName = download.suggestedFilename();
         expect(fileName).toBe('sampleFile.jpeg');
         const downloadPath = path.join(__dirname, 'downloads', fileName);
         await download.saveAs(downloadPath);
         expect(fs.existsSync(downloadPath)).toBeTruthy();
-        await this.page.setInputFiles('input[type="file"]','/Users/gaurimishra/Desktop/playwright/playwright/src/testData/download.jpeg')
+        const filePath = path.resolve(__dirname, '../testData/download.jpeg');
+        await this.page.setInputFiles('input[type="file"]', filePath)
         await this.page.getByText('C:\\fakepath\\download.jpeg').isVisible()
     }
     async validateDynamicProperties(){
@@ -162,16 +163,16 @@ export class Elements{
                 expect(dialog.message()).toBe('You clicked a button')
                 await dialog.accept()
             })
-            await this.page.locator('button#alertButton', { hasText: 'Click me' }).click() // Trigger the alert
+            await this.page.locator(selector.alertButton, { hasText: 'Click me' }).click() // Trigger the alert
             this.page.once('dialog', async (dialog) => {
                 expect(dialog.message()).toBe('Do you confirm action?')
                 await dialog.accept()
             })
-            await this.page.locator('button#confirmButton', { hasText: 'Click me' }).click() // Trigger the confirm dialog
+            await this.page.locator(selector.confirmButton, { hasText: 'Click me' }).click() // Trigger the confirm dialog
             this.page.once('dialog', async (dialog) => {
                 expect(dialog.message()).toBe('Please enter your name')
                 await dialog.accept('Input Text')
             })
-            await this.page.locator('button#promtButton', { hasText: 'Click me' }).click() // Trigger the prompt dialog
+            await this.page.locator(selector.promptButton, { hasText: 'Click me' }).click() // Trigger the prompt dialog
     }        
 }

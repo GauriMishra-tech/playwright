@@ -4,7 +4,7 @@ import { test } from "@playwright/test"
 
 test.describe('Validate tests', () => {
     test.beforeEach(async({page}) => {
-        await page.goto('https://demoqa.com/frames');
+        await page.goto('/');
     }),
     test('Validate elements', async ({page}) => {
         const elements = new Elements(page)

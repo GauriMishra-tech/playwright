@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import {selector} from "../selectors/selectors"
 import testdata from "../testData/testData.json"
+import path from 'path';
 export class Forms{
     readonly page:Page;
     constructor(page:Page){
@@ -20,7 +21,8 @@ export class Forms{
         await this.page.locator(selector.selectDay).click()
         await this.page.locator(selector.inputSubject).fill(testdata.subject[0] +"{Enter}"+ testdata.subject[1] +"{Enter}")
         await this.page.locator(selector.hobbiesCheckbox).click()
-        await this.page.setInputFiles('input[type="file"]', '/Users/gaurimishra/Desktop/playwright/playwright/src/testData/download.jpeg')
+        const filePath = path.resolve(__dirname, '../testData/download.jpeg');
+        await this.page.setInputFiles('input[type="file"]', filePath)
         await this.page.locator(selector.inputCurrentAddress).fill(testdata.currentAddress)
         await this.page.locator(selector.selectState).fill("N")
         await this.page.keyboard.press('Enter')
